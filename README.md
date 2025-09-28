@@ -36,7 +36,7 @@ LapTrinhMang
   - **Client:** gửi lệnh SMTP và nội dung email.  
   - **Server:** phản hồi các mã trạng thái, lưu và hiển thị email.  
 
-  - **Ý nghĩa:** Sinh viên nắm được cách thức hoạt động của các giao thức tầng ứng dụng.  
+  - **Mục tiêu:** Giúp sinh viên nắm được cách thức hoạt động của các giao thức tầng ứng dụng.  
 
   Ứng dụng có thể mở rộng vào các bài toán lập trình mạng nâng cao:  
   - Xây dựng **mail relay**  
