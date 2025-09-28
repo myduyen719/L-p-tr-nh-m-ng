@@ -18,15 +18,39 @@ LapTrinhMang
 
 ---
 
-## 📖 1. Giới thiệu  
-
-- **Tên đề tài:** Gửi email mô phỏng **SMTP qua Socket**  
-- **Mục tiêu:**  
-  - Hiểu cơ chế hoạt động của giao thức **SMTP (Simple Mail Transfer Protocol)**  
-  - Xây dựng ứng dụng mô phỏng việc **gửi email qua Socket**  
-  - Tìm hiểu, củng cố kiến thức về **lập trình mạng** trong Java/Python  
+<h1 align="center">📧 GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET</h1>
 
 ---
+
+## 📖 1. Giới thiệu  
+
+- **Tên đề tài:** Gửi email mô phỏng SMTP qua Socket  
+
+- **Mục tiêu:**  
+  Hiểu cơ chế hoạt động cơ bản của giao thức **SMTP**.  
+
+  Thực hành lập trình **Socket trong Java** để mô phỏng quá trình gửi/nhận email.  
+
+  Xây dựng mô hình **Client – Server** đơn giản:  
+
+  - **Client:** gửi lệnh SMTP và nội dung email.  
+  - **Server:** phản hồi các mã trạng thái, lưu và hiển thị email.  
+
+  - **Ý nghĩa:** Sinh viên nắm được cách thức hoạt động của các giao thức tầng ứng dụng.  
+
+  Ứng dụng có thể mở rộng vào các bài toán lập trình mạng nâng cao:  
+  - Xây dựng **mail relay**  
+  - Bảo mật bằng **TLS/SSL**  
+  - Xác thực tài khoản, quản lý hệ thống mail server  
+
+---
+
+## 🏗️ Thành phần hệ thống  
+
+<p align="center">
+  <img src="docs/images/system-architecture.png" alt="SMTP Socket Architecture" width="500"/>
+</p>
+
 
 ## ⚙️ 2. Công nghệ sử dụng
 - Ngôn ngữ: **Java / Python**  
