@@ -53,23 +53,38 @@ LapTrinhMang
 </p>
 
 
-## ⚙️ 2. Công nghệ sử dụng
-- Ngôn ngữ: **Java / Python**  
-- Giao thức: **TCP/IP, SMTP**  
-- Công cụ hỗ trợ:  
-  - `Socket Programming`  
-  - `Swing / Tkinter` cho giao diện (nếu có)  
+---
+## 🛠️ 2. Công nghệ sử dụng  
+
+- **Ngôn ngữ lập trình:** Java 23 SE  
+- **Thư viện:**  
+  - `java.net.ServerSocket`, `java.net.Socket` (xử lý TCP)  
+  - `BufferedReader`, `PrintWriter` (gửi/nhận dữ liệu dạng text)  
+- **Giao thức:** SMTP (Simple Mail Transfer Protocol)  
+- **Công cụ IDE:** Eclipse / IntelliJ IDEA  
+- **Môi trường chạy:** Windows / Linux / macOS  
+
 
 ---
 
 ## 🏗️ 3. Cấu trúc dự án  
 
+```
+## ⚙️ 4. Các bước cài đặt & Chạy ứng dụng  
+
+### 🛠 Yêu cầu hệ thống  
+- **Hệ điều hành:** Windows 10/11, macOS hoặc Linux  
+- **Java Development Kit (JDK):** Phiên bản 8 trở lên (khuyến nghị JDK 17)  
+- **RAM:** Tối thiểu 2GB  
+- **IDE khuyến nghị:** Eclipse / IntelliJ IDEA / NetBeans  
+
+---
+
+### 🚀 Clone source code  
+
+Mở terminal / cmd và chạy lệnh sau:  
+
 ```bash
-📂 smtp-socket-demo
- ┣ 📂 src
- ┃ ┣ 📜 Server.java
- ┃ ┣ 📜 Client.java
- ┃ ┗ 📜 MailHandler.java
- ┣ 📜 README.md
- ┣ 📜 LICENSE
- ┗ 📜 .gitignore
+git clone https://github.com/ducthuong11/LTM-1604-D13-Gui-Mail-SMTP-TCP.git
+cd LTM-1604-D13-Gui-Mail-SMTP-TCP
+
