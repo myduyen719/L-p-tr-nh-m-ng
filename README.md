@@ -66,13 +66,9 @@ LapTrinhMang
 
 
 ---
+ ## ⚙️ 4. Các bước cài đặt & Chạy ứng dụng  
 
-## 🏗️ 3. Cấu trúc dự án  
-
-```
-## ⚙️ 4. Các bước cài đặt & Chạy ứng dụng  
-
-### 🛠 Yêu cầu hệ thống  
+ 🛠 Yêu cầu hệ thống  
 - **Hệ điều hành:** Windows 10/11, macOS hoặc Linux  
 - **Java Development Kit (JDK):** Phiên bản 8 trở lên (khuyến nghị JDK 17)  
 - **RAM:** Tối thiểu 2GB  
@@ -84,7 +80,5 @@ LapTrinhMang
 
 Mở terminal / cmd và chạy lệnh sau:  
 
-```bash
-git clone https://github.com/ducthuong11/LTM-1604-D13-Gui-Mail-SMTP-TCP.git
-cd LTM-1604-D13-Gui-Mail-SMTP-TCP
+
 
