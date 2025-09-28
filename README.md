@@ -1,8 +1,45 @@
 # L-p-tr-nh-m-ng
 LapTrinhMang
-<img width="1508" height="1687" alt="image" src="https://github.com/user-attachments/assets/671dc646-5747-4a70-80d6-ce3a9635c3f6" />
-<img width="3693" height="3693" alt="image" src="https://github.com/user-attachments/assets/131b66db-4c4b-4bc2-938c-0fa10bef8420" />
-<img width="1128" height="1024" alt="image" src="https://github.com/user-attachments/assets/e57cadd4-c6f1-4267-9a31-03074ad4b146" />
-<img width="83" height="28" alt="image" src="https://github.com/user-attachments/assets/37242d98-5650-4206-94be-161fe1248252" />
-<img width="300" height="28" alt="image" src="https://github.com/user-attachments/assets/d9512831-c9e0-48e5-968b-d23118cdf0e1" />
-<img width="166" height="28" alt="image" src="https://github.com/user-attachments/assets/04abce7d-1fe9-4bfe-827a-dcfbb66cb237" />
+<h1 align="center">📧 GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET</h1>
+
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Socket-Icon.png" alt="SMTP Socket" width="120"/>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/iot/iot.png" alt="AIoT Lab" width="100"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Dainam_University_logo.png/800px-Dainam_University_logo.png" alt="Dai Nam University" width="200"/>
+</p>
+
+---
+
+## 📖 1. Giới thiệu  
+
+- **Tên đề tài:** Gửi email mô phỏng **SMTP qua Socket**  
+- **Mục tiêu:**  
+  - Hiểu cơ chế hoạt động của giao thức **SMTP (Simple Mail Transfer Protocol)**  
+  - Xây dựng ứng dụng mô phỏng việc **gửi email qua Socket**  
+  - Tìm hiểu, củng cố kiến thức về **lập trình mạng** trong Java/Python  
+
+---
+
+## ⚙️ 2. Công nghệ sử dụng
+- Ngôn ngữ: **Java / Python**  
+- Giao thức: **TCP/IP, SMTP**  
+- Công cụ hỗ trợ:  
+  - `Socket Programming`  
+  - `Swing / Tkinter` cho giao diện (nếu có)  
+
+---
+
+## 🏗️ 3. Cấu trúc dự án  
+
+```bash
+📂 smtp-socket-demo
+ ┣ 📂 src
+ ┃ ┣ 📜 Server.java
+ ┃ ┣ 📜 Client.java
+ ┃ ┗ 📜 MailHandler.java
+ ┣ 📜 README.md
+ ┣ 📜 LICENSE
+ ┗ 📜 .gitignore
