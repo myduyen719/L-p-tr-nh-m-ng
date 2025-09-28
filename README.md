@@ -48,7 +48,8 @@ LapTrinhMang
 ## 🏗️ Thành phần hệ thống  
 
 <p align="center">
-  <img src="docs/images/system-architecture.png" alt="SMTP Socket Architecture" width="500"/>
+  <img src="<img width="567" height="375" alt="image" src="https://github.com/user-attachments/assets/2f762ab2-e1a6-4e5c-a2ad-c082f0935ce4" />
+"/>
 </p>
 
 
