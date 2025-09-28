@@ -7,8 +7,13 @@ LapTrinhMang
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/github/explore/main/topics/iot/iot.png" alt="AIoT Lab" width="100"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Dainam_University_logo.png/800px-Dainam_University_logo.png" alt="Dai Nam University" width="200"/>
+  <img src="<img width="1508" height="1687" alt="image" src="https://github.com/user-attachments/assets/c0290238-8d45-481b-9c3b-0bc5acfb95a5" />
+" alt="AIoT Lab" width="100"/>
+  <img src="<img width="3693" height="3693" alt="image" src="https://github.com/user-attachments/assets/393e0772-ab21-4ce2-9987-9061b8b45e2f" />
+" alt="DNU - Khoa Công nghệ thông tin" width="200"/>
+  <img src="<img width="1128" height="1024" alt="image" src="https://github.com/user-attachments/assets/94fe3669-f49d-422f-b1a7-2716225e1cde" />
+" />
+" alt="Dai Nam University" width="200"/>
 </p>
 
 ---
