@@ -1,0 +1,279 @@
+package smtpapp;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.*;
+
+public class LoginFrame extends JFrame {
+    
+    // Đảm bảo hằng số kết nối DB này có trong lớp
+    private static final String DB_URL = "jdbc:sqlite:mail.db";
+    
+    private JTextField userField;
+    private JPasswordField passField;
+    private JLabel statusLabel;
+
+    public LoginFrame() {
+        setTitle("Đăng nhập - SMTP Email Simulator");
+        setSize(460, 580);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setupLookAndFeel();
+
+        JPanel main = new JPanel();
+        main.setBackground(Color.WHITE);
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+        main.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 50));
+
+        // Logo
+        JLabel logo = new JLabel("SMTP Email", SwingConstants.CENTER);
+        logo.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        logo.setForeground(new Color(0, 105, 192));
+        // Thay thế bằng icon thực tế nếu có
+        logo.setIcon(createBigMailIcon(80)); 
+        logo.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel sub = new JLabel("Mô phỏng giao thức SMTP qua Socket");
+        sub.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        sub.setForeground(Color.GRAY);
+        sub.setAlignmentX(CENTER_ALIGNMENT);
+
+        // Form
+        userField = new JTextField(20);
+        passField = new JPasswordField(20);
+        // Sử dụng placeholder hợp lệ
+        styleTextField(userField, "Tên đăng nhập (vd: user@smtpapp.com)"); 
+        styleTextField(passField, "Mật khẩu");
+
+        JButton loginBtn = createModernButton("Đăng nhập", new Color(0, 122, 255));
+        // Nút Đăng ký đã được sửa lỗi logic
+        JButton regBtn = createModernButton("Tạo tài khoản mới", new Color(40, 167, 69)); 
+
+        statusLabel = new JLabel(" ");
+        statusLabel.setForeground(Color.RED);
+        statusLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        // Thêm các thành phần
+        main.add(logo);
+        main.add(Box.createRigidArea(new Dimension(0, 5)));
+        main.add(sub);
+        main.add(Box.createRigidArea(new Dimension(0, 40)));
+        main.add(userField);
+        main.add(Box.createRigidArea(new Dimension(0, 10)));
+        main.add(passField);
+        main.add(Box.createRigidArea(new Dimension(0, 20)));
+        main.add(loginBtn);
+        main.add(Box.createRigidArea(new Dimension(0, 10)));
+        main.add(regBtn);
+        main.add(Box.createRigidArea(new Dimension(0, 15)));
+        main.add(statusLabel);
+
+        // Đính kèm các Listener
+        loginBtn.addActionListener(e -> attemptLogin());
+        regBtn.addActionListener(e -> attemptRegistration()); 
+
+        add(main);
+        setVisible(true);
+    }
+    
+    // ------------------------------------------------------------------
+    //                         LOGIC ĐĂNG NHẬP
+    // ------------------------------------------------------------------
+
+    private void attemptLogin() {
+        String username = userField.getText().trim();
+        String password = new String(passField.getPassword()).trim();
+
+        if (username.isEmpty() || password.isEmpty() || username.contains("Tên đăng nhập")) {
+            statusLabel.setText("Vui lòng nhập tên đăng nhập và mật khẩu.");
+            statusLabel.setForeground(Color.RED);
+            return;
+        }
+
+        String sql = "SELECT username FROM users WHERE username = ? AND password = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, password); 
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                statusLabel.setForeground(new Color(40, 167, 69));
+                statusLabel.setText("Đăng nhập thành công! Chào mừng, " + username);
+                new MainApp(username).setVisible(true); 
+                dispose(); 
+            } else {
+                statusLabel.setForeground(Color.RED);
+                statusLabel.setText("Tên đăng nhập hoặc mật khẩu không đúng.");
+            }
+
+        } catch (SQLException e) {
+            statusLabel.setForeground(Color.RED);
+            statusLabel.setText("Lỗi kết nối cơ sở dữ liệu: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    // ------------------------------------------------------------------
+    //                         LOGIC ĐĂNG KÝ (FIXED)
+    // ------------------------------------------------------------------
+
+    private void attemptRegistration() {
+        String newUsername = userField.getText().trim();
+        String newPassword = new String(passField.getPassword()).trim();
+        
+        // 1. Kiểm tra đầu vào ban đầu
+        if (newUsername.isEmpty() || newPassword.isEmpty() || newUsername.contains("Tên đăng nhập")) {
+            statusLabel.setForeground(Color.RED);
+            statusLabel.setText("Vui lòng nhập tên và mật khẩu muốn đăng ký.");
+            return;
+        }
+
+        // 2. Yêu cầu xác nhận mật khẩu
+        JPasswordField confirmPassField = new JPasswordField(10);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Xác nhận Mật khẩu:"));
+        panel.add(confirmPassField);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, 
+            "Xác nhận Mật khẩu", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String confirmPassword = new String(confirmPassField.getPassword()).trim();
+
+            if (!newPassword.equals(confirmPassword)) {
+                statusLabel.setForeground(Color.RED);
+                statusLabel.setText("Mật khẩu xác nhận không khớp.");
+                return;
+            }
+            // 3. Thực hiện đăng ký
+            registerUser(newUsername, newPassword);
+        }
+    }
+
+    private void registerUser(String username, String password) {
+        // Tên người dùng phải bao gồm domain
+        if (!username.contains("@")) {
+            username = username + "@smtpapp.com"; 
+        }
+        
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            // Kiểm tra tài khoản đã tồn tại
+            if (isUserExists(username, conn)) {
+                statusLabel.setForeground(Color.RED);
+                statusLabel.setText("Tài khoản đã tồn tại: " + username);
+                return;
+            }
+
+            // Chèn dữ liệu
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                statusLabel.setForeground(new Color(40, 167, 69));
+                statusLabel.setText("Đăng ký thành công! Đăng nhập với tài khoản: " + username);
+                passField.setText("");
+            }
+
+        } catch (SQLException e) {
+            statusLabel.setForeground(Color.RED);
+            statusLabel.setText("Lỗi CSDL khi đăng ký: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isUserExists(String username, Connection conn) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        }
+    }
+    
+    // ------------------------------------------------------------------
+    //                         CÁC PHƯƠNG THỨC HỖ TRỢ
+    // ------------------------------------------------------------------
+
+    private Icon createBigMailIcon(int size) {
+        // [Giữ nguyên hoặc thay thế bằng Icon thật]
+        return new Icon() {
+            public void paintIcon(Component c, Graphics g, int x, int y) {}
+            public int getIconWidth() { return size; }
+            public int getIconHeight() { return size; }
+        };
+    }
+
+    private void setupLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) { /* ignored */ }
+    }
+
+    private void styleTextField(JTextField field, String placeholder) {
+        field.setMaximumSize(new Dimension(300, 35));
+        field.setAlignmentX(CENTER_ALIGNMENT);
+        field.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        
+        field.setForeground(Color.GRAY);
+        field.setText(placeholder);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(Color.GRAY);
+                    field.setText(placeholder);
+                }
+            }
+        });
+    }
+
+    private JButton createModernButton(String text, Color background) {
+        JButton button = new JButton(text);
+        button.setBackground(background);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setMaximumSize(new Dimension(300, 40));
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) { button.setBackground(background.darker()); }
+            public void mouseExited(MouseEvent e) { button.setBackground(background); }
+        });
+
+        return button;
+    }
+    
+    public static void main(String[] args) {
+        // Cần tải driver SQLite khi ứng dụng khởi động
+         try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Lỗi: Không tìm thấy driver SQLite.");
+            e.printStackTrace();
+        }
+        SwingUtilities.invokeLater(() -> {
+            new LoginFrame();
+        });
+    }
+}
