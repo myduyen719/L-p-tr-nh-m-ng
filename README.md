@@ -1,24 +1,24 @@
 # L-p-tr-nh-m-ng
-LapTrinhMang
-<h1 align="center">📧 GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET</h1>
+<h2 align="center">
+    <a href="https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin">
+    🎓 Faculty of Information Technology (DaiNam University)
+    </a>
+</h2>
+<h2 align="center">
+   GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET
+</h2>
+<div align="center">
+    <p align="center">
+        <img src="docs/aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
+        <img src="docs/fitdnu_logo.png" alt="AIoTLab Logo" width="180"/>
+        <img src="docs/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
+    </p>
 
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Socket-Icon.png" alt="SMTP Socket" width="120"/>
-</p>
+[![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
+[![Faculty of Information Technology](https://img.shields.io/badge/Faculty%20of%20Information%20Technology-blue?style=for-the-badge)](https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin)
+[![DaiNam University](https://img.shields.io/badge/DaiNam%20University-orange?style=for-the-badge)](https://dainam.edu.vn)
 
-<p align="center">
-  <img src="<img width="1508" height="1687" alt="image" src="https://github.com/user-attachments/assets/c0290238-8d45-481b-9c3b-0bc5acfb95a5" />
-" alt="AIoT Lab" width="100"/>
-  <img src="<img width="3693" height="3693" alt="image" src="https://github.com/user-attachments/assets/393e0772-ab21-4ce2-9987-9061b8b45e2f" />
-" alt="DNU - Khoa Công nghệ thông tin" width="200"/>
-  <img src="<img width="1128" height="1024" alt="image" src="https://github.com/user-attachments/assets/94fe3669-f49d-422f-b1a7-2716225e1cde" />
-" />
-" alt="Dai Nam University" width="200"/>
-</p>
-
----
-
-<h1 align="center">📧 GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET</h1>
+</div>
 
 ---
 
@@ -54,27 +54,69 @@ LapTrinhMang
 
 
 ---
-## 🛠️ 2. Công nghệ sử dụng  
+## 2. ⚙️ Công nghệ sử dụng
 
-- **Ngôn ngữ lập trình:** Java 23 SE  
-- **Thư viện:**  
-  - `java.net.ServerSocket`, `java.net.Socket` (xử lý TCP)  
-  - `BufferedReader`, `PrintWriter` (gửi/nhận dữ liệu dạng text)  
-- **Giao thức:** SMTP (Simple Mail Transfer Protocol)  
-- **Công cụ IDE:** Eclipse / IntelliJ IDEA  
-- **Môi trường chạy:** Windows / Linux / macOS  
-
+| Công nghệ | Chi tiết |
+| :--- | :--- |
+| **Ngôn ngữ lập trình** | Java (JDK 21) |
+| **Giao diện người dùng** | Java Swing |
+| **Giao thức** | TCP Socket (Mô phỏng SMTP) |
+| **Cơ sở dữ liệu** | SQLite (Sử dụng JDBC) |
 
 ---
- ## ⚙️ 4. Các bước cài đặt & Chạy ứng dụng  
 
- 🛠 Yêu cầu hệ thống  
-- **Hệ điều hành:** Windows 10/11, macOS hoặc Linux  
-- **Java Development Kit (JDK):** Phiên bản 8 trở lên (khuyến nghị JDK 17)  
-- **RAM:** Tối thiểu 2GB  
-- **IDE khuyến nghị:** Eclipse / IntelliJ IDEA / NetBeans  
+## 🖼️ 3. Một số hình ảnh hệ thống 
+
+<p align="center">
+    <img width="1920" height="1013" alt="Screenshot (344)" src="<img width="1831" height="967" alt="image" src="https://github.com/user-attachments/assets/4e508601-8abd-465b-89bc-a192003c2ec9" />
+" />
+    <em>Giao diện đăng nhập, đăng ký</em><br/>
+</p>
+
+
+
+<p align="center">
+    <img width="1920" height="1009" alt="Screenshot (345)" src="<img width="1572" height="980" alt="image" src="https://github.com/user-attachments/assets/c71dbb3d-aa5c-43af-8fc8-7d6b52fe774b" />
+" />
+    <em>Giao diện Gửi và Nhận Email</em><br/>
+</p>
+---
+## 4. 🛠️ Trạng thái Hiện tại & Khắc phục Sự cố Socket (Quan trọng)
+
+Trạng thái hiện tại tập trung vào việc khắc phục các sự cố triển khai Server (`SMTPServer.java`). Đây là vấn đề kỹ thuật dai dẳng và cách giải quyết triệt để:
+
+* **Vấn đề Cốt lõi**: Lỗi **`java.net.BindException: Address already in use: bind`** liên tục xảy ra.
+    * Lỗi này cho thấy `ServerSocket` không thể liên kết với cổng do một tiến trình cũ vẫn đang chiếm dụng cổng đó (hiện tại là **9090**).
+
+* **Giải pháp Đã áp dụng**:
+    1.  **Chuyển Cổng & Tái sử dụng Địa chỉ**: Cổng Server đã được chuyển cố định sang **9090** và thêm `serverSocket.setReuseAddress(true)` trong mã `SMTPServer.java`.
+    2.  **Buộc Dừng Tiến trình (Giải pháp Hệ thống)**: Để khắc phục triệt để lỗi, đã sử dụng Command Prompt để xác định PID (ID tiến trình) đang chiếm dụng cổng và buộc dừng nó.
+        * Lệnh kiểm tra: `netstat -ano | findstr :9090`
+        * Lệnh buộc dừng: `taskkill /PID [PID] /F`
 
 ---
+ ## 5. 🚀 Hướng dẫn Khởi động và Kiểm tra
+
+Thực hiện các bước sau theo thứ tự để khởi động và kiểm tra đầy đủ ứng dụng:
+
+1.  **Chạy Server**: Khởi động **`SMTPServer.java`** (đảm bảo cổng 9090 đã được giải phóng).
+2.  **Khởi động Client**: Khởi động **`LoginFrame.java`**.
+3.  **Kiểm tra Đăng ký & Đăng nhập**: Tạo tài khoản mới, sau đó Đăng nhập.
+4.  **Kiểm tra Gửi/Nhận Mail**: Sử dụng giao diện chính để gửi thư và xác nhận Server xử lý đúng các lệnh SMTP.
+
+  ## 💬 6. Liên hệ
+📧 Email: myduyn71@gmail.com
+
+---
+
+<div align="center">
+
+Thực hiện bởi Lê Thị Mỹ Duyên - CNTT 16-01, trường Đại học Đại Nam
+
+Website • GitHub • Contact Me
+
+</div>
+ 
 
 ### 🚀 Clone source code  
 
