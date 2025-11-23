@@ -1,0 +1,47 @@
+package smtpapp;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+
+public class EmailFrame extends JDialog {
+
+    public EmailFrame(Frame owner, String from, String subject, String date, String body) {
+        super(owner, "Xem Email: " + subject, true);
+        setSize(700, 500);
+        setLocationRelativeTo(owner);
+        setLayout(new BorderLayout());
+        
+        // Header thông tin
+        JPanel header = new JPanel(new GridLayout(3, 1));
+        header.setBorder(new EmptyBorder(15, 15, 15, 15));
+        header.setBackground(new Color(230, 240, 255));
+        
+        header.add(new JLabel("📧 Từ: " + from));
+        header.add(new JLabel("📋 Tiêu đề: " + subject));
+        header.add(new JLabel("⌚ Ngày gửi: " + date));
+        add(header, BorderLayout.NORTH);
+
+        // Nội dung thư
+        JTextArea bodyArea = new JTextArea(body);
+        bodyArea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        bodyArea.setEditable(false);
+        bodyArea.setLineWrap(true);
+        bodyArea.setWrapStyleWord(true);
+        
+        JScrollPane scroll = new JScrollPane(bodyArea);
+        scroll.setBorder(BorderFactory.createTitledBorder("Nội dung đã giải mã"));
+        add(scroll, BorderLayout.CENTER);
+        
+        // Footer (Close button)
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton closeBtn = new JButton("Đóng");
+        closeBtn.addActionListener(e -> dispose());
+        footer.add(closeBtn);
+        add(footer, BorderLayout.SOUTH);
+    }
+
+    public static void showEmail(Frame owner, String from, String subject, String date, String body) {
+        new EmailFrame(owner, from, subject, date, body).setVisible(true);
+    }
+}
